@@ -1,5 +1,8 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-    base: '/your-repo-name/',
+    // base: '/threeJSTest/',
+    esbuild: {
+        target: 'esnext' // top-level await
+    }
 });

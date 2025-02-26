@@ -1,25 +1,25 @@
 import { getModels } from './getModels';
 import * as THREE from 'three';
 
-const modelsPath = '../assets/glb/Canopy_Models.glb';
-const {
-    Lodge_20x190x1000_bevel,
-    Lodge_20x200x1000,
-    balk_150x150x1000,
-    balk_150x150x2200,
-    balk_corner,
-    lodge_150x50x200,
-    lodge__150x50x1000,
-    profile_canopy_perimeter_closed,
-    roof_edge_1m,
-    roof_edge_1m2,
-    roof_edge_corner,
-    roof_edge_corner2,
-    ruberoid_1000x1000x2
-} = await getModels(modelsPath);
+// const {
+//     Lodge_20x190x1000_bevel,
+//     Lodge_20x200x1000,
+//     balk_150x150x1000,
+//     balk_150x150x2200,
+//     balk_corner,
+//     lodge_150x50x200,
+//     lodge__150x50x1000,
+//     profile_canopy_perimeter_closed,
+//     roof_edge_1m,
+//     roof_edge_1m2,
+//     roof_edge_corner,
+//     roof_edge_corner2,
+//     ruberoid_1000x1000x2
+// } = await getModels(modelsPath);   
 
-function createMainSupportBalks(scene, params) {
+function createMainSupportBalks(scene, params, models) {
     const { width, height, depth } = params;
+    const { balk_150x150x2200 } = models;
     const positions = [
         { x: -width / 2, z: -depth / 2 },
         { x: width / 2, z: -depth / 2 },
@@ -35,8 +35,9 @@ function createMainSupportBalks(scene, params) {
     });
     scene.add(balkGroup);
 };
-function createAdditionalSupportBalks(scene, params) {
+function createAdditionalSupportBalks(scene, params,  models) {
     const { width, height, depth } = params;
+    const { balk_150x150x2200, balk_corner } = models;
     const box = new THREE.Box3().setFromObject(balk_corner);
     const cornerBalkY = height - box.min.y - (box.max.y - box.min.y);
     const mainPositions = [
@@ -64,8 +65,9 @@ function createAdditionalSupportBalks(scene, params) {
     });
     scene.add(supportBalksGroup);
 };
-function createHorizontalBalks(scene, params) {
+function createHorizontalBalks(scene, params, models) {
     const { width, height, depth } = params;
+    const { balk_150x150x1000 } = models;
     const length1 = width + 0.150;
     const length2 = depth - 0.075;
     const cornerPositions = [
@@ -87,8 +89,9 @@ function createHorizontalBalks(scene, params) {
 
     scene.add(horizontalGroup);
 };
-function createCornerBalks(scene, params) {
+function createCornerBalks(scene, params, models) {
     const { width, height, depth } = params;
+    const { balk_corner } = models;
     const box = new THREE.Box3().setFromObject(balk_corner);
     const balkY = height - box.min.y - (box.max.y - box.min.y);
     const positions = [
@@ -111,33 +114,44 @@ function createCornerBalks(scene, params) {
 
     scene.add(cornerGroup);
 };
-function createFrieze (scene, params) {
-    const lowerFriezeLength1 = 3 + 0.150 + 0.180 * 2 + 0.04;
-    const lowerFriezeLength2 = 5 + 0.150 + 0.180 * 2 - 0.04;
-    const lowerPositions = [
-        { x: lowerFriezeLength1 / 2, z: lowerFriezeLength2 / 2, rotationY: Math.PI / 2, scaleX: lowerFriezeLength2 },
-        { x: -(lowerFriezeLength1 / 2), z: lowerFriezeLength2 / 2, rotationY: Math.PI / 2, scaleX: lowerFriezeLength2 },
-        { x: -(lowerFriezeLength1 / 2), z: -(lowerFriezeLength2 / 2), rotationY: 0, scaleX: lowerFriezeLength1 },
-        { x: -(lowerFriezeLength1 / 2), z: lowerFriezeLength2 / 2, rotationY: 0, scaleX: lowerFriezeLength1 }, 
-    ];
-    const upperPositions = [];
-    const friezeGroup = new THREE.Group();
-    lowerPositions.forEach((pos) => {
-        const frieze = Lodge_20x200x1000.clone();
-        frieze.position.set(pos.x, 2.3, pos.z);
-        frieze.rotation.y = pos.rotationY || 0;
-        frieze.scale.x = pos.scaleX || 0;
-        friezeGroup.add(frieze);
-    });
-    scene.add(friezeGroup);
-}
+// function createFrieze (scene, params, models) {
+//     const lowerFriezeLength1 = 3 + 0.150 + 0.180 * 2 + 0.04;
+//     const lowerFriezeLength2 = 5 + 0.150 + 0.180 * 2 - 0.04;
+//     const lowerPositions = [
+//         { x: lowerFriezeLength1 / 2, z: lowerFriezeLength2 / 2, rotationY: Math.PI / 2, scaleX: lowerFriezeLength2 },
+//         { x: -(lowerFriezeLength1 / 2), z: lowerFriezeLength2 / 2, rotationY: Math.PI / 2, scaleX: lowerFriezeLength2 },
+//         { x: -(lowerFriezeLength1 / 2), z: -(lowerFriezeLength2 / 2), rotationY: 0, scaleX: lowerFriezeLength1 },
+//         { x: -(lowerFriezeLength1 / 2), z: lowerFriezeLength2 / 2, rotationY: 0, scaleX: lowerFriezeLength1 }, 
+//     ];
+//     const upperPositions = [];
+//     const friezeGroup = new THREE.Group();
+//     lowerPositions.forEach((pos) => {
+//         const frieze = Lodge_20x200x1000.clone();
+//         frieze.position.set(pos.x, 2.3, pos.z);
+//         frieze.rotation.y = pos.rotationY || 0;
+//         frieze.scale.x = pos.scaleX || 0;
+//         friezeGroup.add(frieze);
+//     });
+//     scene.add(friezeGroup);
+// }
 
-export function canopy(scene, params) {
-    createMainSupportBalks(scene, params);
+function canopy(scene, params, models) {
+    createMainSupportBalks(scene, params, models);
     if (params.depth > 3) {
-        createAdditionalSupportBalks(scene, params);
+        createAdditionalSupportBalks(scene, params, models);
     };
-    createHorizontalBalks(scene, params);
-    createCornerBalks(scene, params);
+    createHorizontalBalks(scene, params, models);
+    createCornerBalks(scene, params, models);
     // createFrieze(scene, params);
 };
+
+const modelsPath = '../assets/glb/Canopy_Models.glb';
+
+async function loadModelsAndInit (scene, params) {
+    const models = await getModels(modelsPath);
+    canopy(scene, params, models);
+};
+
+export function initCanopy (scene, params) {
+    loadModelsAndInit(scene, params);
+}

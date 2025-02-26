@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 // import { makeCube } from './cube';
 // import { canopy } from './canopy';
-import { canopy } from './canopy2';
+import { initCanopy } from './canopy2';
 
 
 
@@ -63,9 +63,9 @@ sizeForm.addEventListener('submit', (e) => {
     // scene.add(cube);
     scene.clear();
     sceneCreator();
-    canopy(scene, parameters);
+    initCanopy(scene, parameters);
 });
-canopy(scene, parameters);  
+initCanopy(scene, parameters);  
 
 function animate () {
     renderer.render(scene, camera);
