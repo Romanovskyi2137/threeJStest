@@ -53,14 +53,7 @@ sizeForm.addEventListener('submit', (e) => {
     parameters.width = Number(formData.get('width'));
     parameters.height = Number(formData.get('height'));
     parameters.depth = Number(formData.get('depth'));
-
-    // const { geometry: newGeometry} = makeCube(parameters); // making new geometry
-
-    // scene.remove(cube); 
-    // geometry.dispose(); // clearing up memory
-
-    // cube.geometry = newGeometry;
-    // scene.add(cube);
+    
     scene.clear();
     sceneCreator();
     initCanopy(scene, parameters);
